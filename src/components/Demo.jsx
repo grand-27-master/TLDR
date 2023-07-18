@@ -1,60 +1,49 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import {copy, loader, tick} from '../assets'
+import { useLazyGetSummaryQuery } from '../services/articles'
 
 const Demo = () => {
 
     const [article, setArticle] = useState({
-        text: '',
-        title: '',
-        description: '',
-        image: '',
+        url: '',
+        summaary:''
     })
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(false)
-    const [history, setHistory] = useState([])
-    const [result, setResult] = useState('')
-    const [copied, setCopied] = useState(false)
+
+    const [getSummary, { error, isFetching}] = useLazyGetSummaryQuery()
 
     const handleSubmit = async(e) => {
-        // console.log('submit');
-        e.preventDefault()
-        setLoading(true)
-        setError(false)
-        setCopied(false)
-        setResult('')
-        setArticle(e.target[0].value)
-        setHistory([...history, e.target[0].value])
+        console.log('submit');
     }
 
-    useEffect(() => {
-        if (article) {
-            fetch('https://api.funtranslations.com/translate/minion.json?text=' + article)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.error) {
-                        setError(true)
-                        setLoading(false)
-                    } else {
-                        setResult(data.contents.translated)
-                        setLoading(false)
-                    }
-                })
-                .catch(err => {
-                    setError(true)
-                    setLoading(false)
-                })
-        }
-    }, [article])
+    // useEffect(() => {
+    //     if (article) {
+    //         fetch('https://api.funtranslations.com/translate/minion.json?text=' + article)
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 if (data.error) {
+    //                     setError(true)
+    //                     setLoading(false)
+    //                 } else {
+    //                     setResult(data.contents.translated)
+    //                     setLoading(false)
+    //                 }
+    //             })
+    //             .catch(err => {
+    //                 setError(true)
+    //                 setLoading(false)
+    //             })
+    //     }
+    // }, [article])
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(result)
-        setCopied(true)
-    }
+    // const copyToClipboard = () => {
+    //     navigator.clipboard.writeText(result)
+    //     setCopied(true)
+    // }
 
-    const handleHistory = (text) => {
-        setArticle(text)
-    }
+    // const handleHistory = (text) => {
+    //     setArticle(text)
+    // }
 
 
 
@@ -64,8 +53,8 @@ const Demo = () => {
 
             {/* Search Bar */}
             <form className='relative flex justify-center items-center' onSubmit={handleSubmit}>
-                <input type="text" placeholder='Enter your text' required value={article.text} onChange={(e)=>setArticle({...article,text:e.target.value})} className='url_input peer'/>
-                <button type='submit' className='submit_btn'>send</button>
+                <input type="url" placeholder='🔗 Enter URL' required value={article.url} onChange={(e)=>setArticle({...article,url:e.target.value})} className='url_input peer'/>
+                <button type='submit' className='submit_btn'>📩</button>
             </form>
 
             {/* History */}
