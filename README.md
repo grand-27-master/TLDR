@@ -14,4 +14,4 @@ Built a web app that uses GPT-4 to summarize articles. The app is developed usin
 - Easy-to-use and intuitive interface, allowing users to quickly summarize articles on the go.
 
 ## Demo
-<a target="_blank" href="https://tldrapp.netlify.app/">Try it out</a>
+<a target=_blank href="https://tldrapp.netlify.app/">Try it out</a>
